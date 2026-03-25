@@ -8,6 +8,7 @@ export default function App() {
   const [search, setSearch] = useState("");
   const [notes, setNotes] = useState({});
 
+  // Load saved progress
   useEffect(() => {
     const savedRemaining = localStorage.getItem("remainingAlbums");
     const savedNotes = localStorage.getItem("albumNotes");
@@ -15,6 +16,7 @@ export default function App() {
     setNotes(savedNotes ? JSON.parse(savedNotes) : {});
   }, []);
 
+  // Save progress
   useEffect(() => {
     localStorage.setItem("remainingAlbums", JSON.stringify(remaining));
   }, [remaining]);
@@ -23,6 +25,7 @@ export default function App() {
     localStorage.setItem("albumNotes", JSON.stringify(notes));
   }, [notes]);
 
+  // Random picker
   const pickRandom = () => {
     if (remaining.length === 0) return;
     const index = Math.floor(Math.random() * remaining.length);
@@ -31,76 +34,63 @@ export default function App() {
     setRemaining(remaining.filter((a) => a.title !== selected.title));
   };
 
+  // Reset
   const reset = () => {
     setRemaining(albums);
     setCurrentAlbum(null);
   };
 
+  // Search filter
   const filtered = albums.filter(
     (a) =>
       a.title.toLowerCase().includes(search.toLowerCase()) ||
       a.artist.toLowerCase().includes(search.toLowerCase())
   );
 
-  const saveNote = (id, text) => {
-    setNotes({ ...notes, [id]: text });
+  // Save note
+  const saveNote = (title, text) => {
+    setNotes({ ...notes, [title]: text });
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
-      <h1 className="text-4xl font-bold mb-6 text-center">1001 Albums App</h1>
+    <div className="fade-in" style={{ padding: "20px" }}>
+      <h1 className="text-4xl font-bold text-center mb-8">
+        1001 Albums App
+      </h1>
 
-      <div className="flex gap-4 mb-8 justify-center">
-        <button onClick={pickRandom} className="px-6 py-4 text-lg bg-black text-white rounded">
+      {/* CONTROLS */}
+      <div
+        className="fade-in"
+        style={{ display: "flex", gap: "16px", justifyContent: "center", marginBottom: "30px" }}
+      >
+        <button className="spotify-button" onClick={pickRandom}>
           Pick Random
         </button>
-        <button
-          onClick={reset}
-          className="px-6 py-4 text-lg bg-gray-300 rounded"
-        >
+
+        <button className="spotify-button-secondary" onClick={reset}>
           Reset
         </button>
       </div>
 
+      {/* CURRENT ALBUM PANEL */}
       {currentAlbum && (
-        <div>
-          <div className="card-main fade-in">
-            <h2 className="text-2xl font-semibold">{currentAlbum.title}</h2>
-            <p><strong>Artist:</strong> {currentAlbum.artist}</p>
-            <p><strong>Year:</strong> {currentAlbum.year}</p>
-            <p><strong>Genre:</strong> {currentAlbum.genre}</p>
-            <p><strong>Why it's essential:</strong> {currentAlbum.reason}</p>
+        <div className="card-main fade-in" style={{ marginBottom: "40px" }}>
+          <h2 className="text-2xl font-semibold">{currentAlbum.title}</h2>
+          <p><strong>Artist:</strong> {currentAlbum.artist}</p>
+          <p><strong>Year:</strong> {currentAlbum.year}</p>
+          <p><strong>Genre:</strong> {currentAlbum.genre}</p>
+          <p><strong>Why it's essential:</strong> {currentAlbum.reason}</p>
 
-            <textarea
-              className="w-full p-3 mt-4 rounded bg-gray-100 border"
-              rows="4"
-              placeholder="Your listening notes..."
-              value={notes[currentAlbum.title] || ""}
-              onChange={(e) => saveNote(currentAlbum.title, e.target.value)}
-            />
-          </div>
+          <textarea
+            className="notes-box"
+            rows="4"
+            placeholder="Your listening notes..."
+            value={notes[currentAlbum.title] || ""}
+            onChange={(e) => saveNote(currentAlbum.title, e.target.value)}
+          />
         </div>
       )}
 
-      <h2 className="text-2xl font-bold my-4">Browse All Albums</h2>
-      <input
-        placeholder="Search albums or artists..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        className="mb-4 p-3 border rounded w-full"
-      />
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {filtered.map((a) => (
-          <div key={a.title} className="album-card fade-in">
-            <h3 className="font-semibold">{a.title}</h3>
-            <p>
-              {a.artist} ({a.year})
-            </p>
-            <p className="text-sm text-gray-600">{a.genre}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
+      {/* SEARCH */}
+      <div className="fade-in" style={{ maxWidth: "500px", margin: "0 auto" }}>
+        <input
