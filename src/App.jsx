@@ -64,7 +64,7 @@ export default function App() {
 
       {currentAlbum && (
         <div>
-          <div className="mb-8 p-6 rounded bg-white shadow">
+          <div className="card-main fade-in">
             <h2 className="text-2xl font-semibold">{currentAlbum.title}</h2>
             <p><strong>Artist:</strong> {currentAlbum.artist}</p>
             <p><strong>Year:</strong> {currentAlbum.year}</p>
@@ -92,7 +92,7 @@ export default function App() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {filtered.map((a) => (
-          <div key={a.title} className="p-4 bg-white shadow rounded">
+          <div key={a.title} className="album-card fade-in">
             <h3 className="font-semibold">{a.title}</h3>
             <p>
               {a.artist} ({a.year})
