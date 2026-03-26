@@ -7,6 +7,30 @@ export default function App() {
   const [search, setSearch] = useState("");
   const [notes, setNotes] = useState({});
 
+  // ⭐ NEW: AI-generated album info
+  const [albumInfo, setAlbumInfo] = useState("");
+
+  // ⭐ NEW: Function that calls your Vercel AI endpoint
+  const fetchAlbumInfo = async (album, artist) => {
+    const res = await fetch("/api/album-info", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ album, artist }),
+    });
+
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    let text = "";
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      text += decoder.decode(value);
+    }
+
+    return text;
+  };
+
   useEffect(() => {
     const savedRemaining = localStorage.getItem("remainingAlbums");
     const savedNotes = localStorage.getItem("albumNotes");
@@ -23,17 +47,25 @@ export default function App() {
     localStorage.setItem("albumNotes", JSON.stringify(notes));
   }, [notes]);
 
-  const pickRandom = () => {
+  // ⭐ UPDATED: async + calls AI
+  const pickRandom = async () => {
     if (remaining.length === 0) return;
+
     const index = Math.floor(Math.random() * remaining.length);
     const selected = remaining[index];
+
     setCurrentAlbum(selected);
     setRemaining(remaining.filter((a) => a.title !== selected.title));
+
+    // Fetch AI-generated specific album info
+    const info = await fetchAlbumInfo(selected.title, selected.artist);
+    setAlbumInfo(info);
   };
 
   const reset = () => {
     setRemaining(albums);
     setCurrentAlbum(null);
+    setAlbumInfo(""); // reset AI text
   };
 
   const filtered = albums.filter(
@@ -65,8 +97,14 @@ export default function App() {
           <p><strong>Artist:</strong> {currentAlbum.artist}</p>
           <p><strong>Year:</strong> {currentAlbum.year}</p>
           <p><strong>Genre:</strong> {currentAlbum.genre}</p>
-          <p><strong>Why it's essential:</strong> {currentAlbum.reason}</p>
 
+          {/* ⭐ AI-GENERATED ALBUM INFO */}
+          <p><strong>AI Album Insight:</strong></p>
+          <p style={{ marginBottom: "15px", opacity: 0.9 }}>
+            {albumInfo || "Loading AI insight..."}
+          </p>
+
+          {/* Your existing notes box */}
           <textarea
             className="notes-box"
             rows="4"
