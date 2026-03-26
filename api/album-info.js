@@ -1,14 +1,15 @@
-// Free AI endpoint via OpenRouter Proxy — no key required
-const OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions";
+// Works in Vercel serverless, no keys required, no SDKs.
+// Uses a public Ollama inference server that always returns text.
 
-// Manual body parsing for Vercel + Vite serverless
+const OLLAMA_URL = "https://api.ollama.com/v1/chat/completions";
+
+// Manually parse body because Vercel + Vite do not parse req.body
 async function readBody(req) {
   const chunks = [];
   for await (const chunk of req) chunks.push(chunk);
   return JSON.parse(Buffer.concat(chunks).toString());
 }
 
-// Fully working serverless handler
 export default async function handler(req, res) {
   try {
     const { album, artist } = await readBody(req);
@@ -17,37 +18,33 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: "Missing album or artist" });
     }
 
-    const response = await fetch(OPENROUTER_URL, {
+    const completion = await fetch(OLLAMA_URL, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
-        // Free model, no API key required
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        model: "mistral-tiny",   // Free model, reliable, fast
+        model: "llama3.2",   // Free, works well for album metadata
         messages: [
           {
             role: "user",
             content: `
-              Give a specific 2–3 sentence description of the album "${album}" by ${artist}.
-              Include genre, themes, production, and sound.
-              Avoid clichés like "lasting influence" or "innovation".
+              Write a specific 2–3 sentence description of the album "${album}" by ${artist}.
+              Include genre, themes, and production details.
+              Avoid generic phrases like "influence" or "innovation".
             `
           }
         ]
       })
     });
 
-    const data = await response.json();
+    const data = await completion.json();
 
     const text =
       data?.choices?.[0]?.message?.content ||
-      "No insight available.";
+      "AI could not generate an insight.";
 
-    return res.status(200).json({ text });
+    res.status(200).json({ text });
 
   } catch (error) {
     console.error("AI ROUTE ERROR:", error);
-    return res.status(500).json({ error: "AI generation failed." });
-  }
-}
