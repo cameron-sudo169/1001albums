@@ -6,21 +6,7 @@ export default function App() {
   const [currentAlbum, setCurrentAlbum] = useState(null);
   const [search, setSearch] = useState("");
   const [notes, setNotes] = useState({});
-  const [albumInfo, setAlbumInfo] = useState(""); // AI-generated text
 
-  // --- Fetch AI-generated album insight from your API route ---
-  const fetchAlbumInfo = async (album, artist) => {
-    const res = await fetch("/api/album-info", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ album, artist }),
-    });
-
-    const data = await res.json();
-    return data.text; // matches what the backend returns
-  };
-
-  // Load saved albums + saved notes from localStorage
   useEffect(() => {
     const savedRemaining = localStorage.getItem("remainingAlbums");
     const savedNotes = localStorage.getItem("albumNotes");
@@ -29,40 +15,27 @@ export default function App() {
     setNotes(savedNotes ? JSON.parse(savedNotes) : {});
   }, []);
 
-  // Save remaining albums
   useEffect(() => {
     localStorage.setItem("remainingAlbums", JSON.stringify(remaining));
   }, [remaining]);
 
-  // Save notes
   useEffect(() => {
     localStorage.setItem("albumNotes", JSON.stringify(notes));
   }, [notes]);
 
-  // --- Pick a random album + fetch AI description ---
-  const pickRandom = async () => {
+  const pickRandom = () => {
     if (remaining.length === 0) return;
-
     const index = Math.floor(Math.random() * remaining.length);
     const selected = remaining[index];
-
     setCurrentAlbum(selected);
     setRemaining(remaining.filter((a) => a.title !== selected.title));
-    setAlbumInfo("Loading AI insight..."); // temporary message
-
-    // Get AI-generated album insight
-    const info = await fetchAlbumInfo(selected.title, selected.artist);
-    setAlbumInfo(info);
   };
 
-  // Reset app
   const reset = () => {
     setRemaining(albums);
     setCurrentAlbum(null);
-    setAlbumInfo("");
   };
 
-  // Search filter
   const filtered = albums.filter(
     (a) =>
       a.title.toLowerCase().includes(search.toLowerCase()) ||
@@ -92,14 +65,8 @@ export default function App() {
           <p><strong>Artist:</strong> {currentAlbum.artist}</p>
           <p><strong>Year:</strong> {currentAlbum.year}</p>
           <p><strong>Genre:</strong> {currentAlbum.genre}</p>
+          <p><strong>Why it's essential:</strong> {currentAlbum.reason}</p>
 
-          {/* AI Insight */}
-          <p><strong>AI Album Insight:</strong></p>
-          <p style={{ marginBottom: "15px", opacity: 0.9 }}>
-            {albumInfo}
-          </p>
-
-          {/* Notes */}
           <textarea
             className="notes-box"
             rows="4"
