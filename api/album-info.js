@@ -1,11 +1,10 @@
-import { generateText } from "ai";
 import { createOpenAI } from "@ai-sdk/openai";
 
 const openai = createOpenAI({
-  apiKey: process.env.AI_API_KEY || "dev-placeholder", 
+  apiKey: process.env.AI_API_KEY || "dev-key",
 });
 
-// ---- FIX: manually parse body for Vercel serverless + Vite ----
+// Manual JSON body parsing for Vercel + Vite
 async function readBody(req) {
   const chunks = [];
   for await (const chunk of req) chunks.push(chunk);
@@ -14,23 +13,31 @@ async function readBody(req) {
 
 export default async function handler(req, res) {
   try {
-    const body = await readBody(req);  
-    const { album, artist } = body;
+    const { album, artist } = await readBody(req);
 
     if (!album || !artist) {
       return res.status(400).json({ error: "Missing album or artist" });
     }
 
-    const result = await generateText({
-      model: openai("gpt-4o-mini"),
-      prompt: `
-        Give a specific, factual 2–3 sentence description of the album "${album}" by ${artist}.
-        Mention genre, sound, themes, production details, or context.
-        Avoid generic phrases like "lasting influence" or "innovation".
-      `
+    // ⭐ Working model call (no generateText)
+    const completion = await openai.chat.completions.create({
+      model: "gpt-4o-mini",
+      messages: [
+        {
+          role: "user",
+          content: `
+            Give a specific, factual 2–3 sentence description of the album "${album}" by ${artist}.
+            Mention sound, themes, genre, and production details.
+            Avoid generic phrases like "lasting influence" or "innovation".
+          `,
+        },
+      ],
     });
 
-    return res.status(200).json({ text: result.text });
+    const text =
+      completion.choices?.[0]?.message?.content || "No insight available.";
+
+    res.status(200).json({ text });
 
   } catch (err) {
     console.error("AI ROUTE ERROR:", err);
