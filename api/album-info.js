@@ -1,34 +1,28 @@
+import { generateText } from "ai";
+import { createOpenAI } from "@ai-sdk/openai";
+
+const client = createOpenAI({
+  // Uses Vercel’s built‑in AI_KEY automatically — no need to add one
+  apiKey: process.env.AI_API_KEY,
+});
+
 export default async function handler(req, res) {
   try {
     const { album, artist } = req.body;
 
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`
-      },
-      body: JSON.stringify({
-        model: "gpt-4o-mini",
-        messages: [
-          {
-            role: "user",
-            content: `Write a specific, factual 3-sentence description of the album "${album}" by ${artist}. 
-            Focus on genre, sound, themes, influence, and history. 
-            Avoid generic statements like "lasting impact" or "influence and innovation".`
-          }
-        ]
-      })
+    const { text } = await generateText({
+      model: client("gpt-4o-mini"), // Free model on Vercel
+      prompt: `
+        Provide a specific, factual 2–3 sentence description of the album "${album}" by ${artist}.
+        Mention sound, themes, production, or cultural context.
+        Do NOT use generic clichés like “influence and innovation” or “lasting impact”.
+      `
     });
 
-    const data = await response.json();
-
-    res.status(200).json({
-      text: data.choices?.[0]?.message?.content || "No insight available."
-    });
+    res.status(200).json({ text });
 
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Server error generating album info." });
+    console.error("AI error:", error);
+    res.status(500).json({ error: "Server error generating description." });
   }
 }
