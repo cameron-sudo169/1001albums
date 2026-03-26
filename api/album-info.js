@@ -1,15 +1,34 @@
-import { streamText } from "ai";
-import { openai } from "@ai-sdk/openai";
+export default async function handler(req, res) {
+  try {
+    const { album, artist } = req.body;
 
-export async function POST(req) {
-  const { album, artist } = await req.json();
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`
+      },
+      body: JSON.stringify({
+        model: "gpt-4o-mini",
+        messages: [
+          {
+            role: "user",
+            content: `Write a specific, factual 3-sentence description of the album "${album}" by ${artist}. 
+            Focus on genre, sound, themes, influence, and history. 
+            Avoid generic statements like "lasting impact" or "influence and innovation".`
+          }
+        ]
+      })
+    });
 
-  const result = await streamText({
-    model: openai("gpt-4.1-mini"),
-    prompt: `Give a short 2–3 sentence description of the album "${album}" by ${artist}. 
-    Make it specific, factual, and focused on genre, themes, legacy, production, or impact. 
-    Do NOT return generic phrases like "influence, innovation, and lasting impact."`
-  });
+    const data = await response.json();
 
-  return result.toAIStreamResponse();
+    res.status(200).json({
+      text: data.choices?.[0]?.message?.content || "No insight available."
+    });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server error generating album info." });
+  }
 }
