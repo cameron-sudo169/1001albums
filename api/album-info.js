@@ -1,28 +1,33 @@
 import { generateText } from "ai";
 import { createOpenAI } from "@ai-sdk/openai";
 
-const client = createOpenAI({
-  // Uses Vercel’s built‑in AI_KEY automatically — no need to add one
+// Use Vercel's built-in AI key (no setup needed)
+const openai = createOpenAI({
   apiKey: process.env.AI_API_KEY,
 });
 
 export default async function handler(req, res) {
   try {
+    // Vercel parses JSON body automatically
     const { album, artist } = req.body;
 
-    const { text } = await generateText({
-      model: client("gpt-4o-mini"), // Free model on Vercel
+    if (!album || !artist) {
+      return res.status(400).json({ error: "Missing album or artist" });
+    }
+
+    const result = await generateText({
+      model: openai("gpt-4o-mini"),
       prompt: `
-        Provide a specific, factual 2–3 sentence description of the album "${album}" by ${artist}.
-        Mention sound, themes, production, or cultural context.
-        Do NOT use generic clichés like “influence and innovation” or “lasting impact”.
+        Give a specific, factual 2–3 sentence description of the album "${album}" by ${artist}.
+        Mention production, sound, themes, genre, or its context.
+        Avoid generic phrases like "lasting impact", "influence", or "innovation".
       `
     });
 
-    res.status(200).json({ text });
+    res.status(200).json({ text: result.text });
 
-  } catch (error) {
-    console.error("AI error:", error);
-    res.status(500).json({ error: "Server error generating description." });
+  } catch (err) {
+    console.error("AI ROUTE ERROR:", err);
+    res.status(500).json({ error: "AI generation failed." });
   }
 }
