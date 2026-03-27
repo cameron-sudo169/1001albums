@@ -112,6 +112,6 @@ export default function App() {
           ))}
         </div>
       )}
-    </div>  {/* <-- THIS closing div was missing */}
+    </div> 
   );
 }
