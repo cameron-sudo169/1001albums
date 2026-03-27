@@ -63,13 +63,15 @@ export default function App() {
       {currentAlbum && (
         <div className="center-card-wrapper">
           <div className="card-main fade-in">
+
             {currentAlbum.cover && (
-  <img
-    src={currentAlbum.cover}
-    alt={currentAlbum.title}
-    className="album-cover"
-  />
-)}
+              <img
+                src={currentAlbum.cover}
+                alt={currentAlbum.title}
+                className="album-cover"
+              />
+            )}
+
             <h2 className="album-title">{currentAlbum.title}</h2>
             <p><strong>Artist:</strong> {currentAlbum.artist}</p>
             <p><strong>Year:</strong> {currentAlbum.year}</p>
@@ -102,23 +104,24 @@ export default function App() {
       {!currentAlbum && (
         <div className="album-grid fade-in">
           {filtered.map((a) => (
-  <div key={a.title} className="album-card fade-in">
+            <div key={a.title} className="album-card fade-in">
 
-    {a.cover && (
-      <img
-        src={a.cover}
-        alt={a.title}
-        className="album-cover-grid"
-      />
-    )}
+              {a.cover && (
+                <img
+                  src={a.cover}
+                  alt={a.title}
+                  className="album-cover-grid"
+                />
+              )}
 
-    <h3 className="album-name">{a.title}</h3>
-    <p className="album-artist">
-      {a.artist} ({a.year})
-    </p>
-    <p className="album-genre">{a.genre}</p>
-  </div>
-))}
+              <h3 className="album-name">{a.title}</h3>
+              <p className="album-artist">
+                {a.artist} ({a.year})
+              </p>
+              <p className="album-genre">{a.genre}</p>
+            </div>
+          ))}
+        </div>
       )}
     </div>
   );
