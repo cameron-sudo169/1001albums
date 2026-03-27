@@ -76,15 +76,6 @@ export default function App() {
         </div>
       )}
 
-      <div className="search-wrapper fade-in">
-        <input
-          className="search-box"
-          placeholder="Search albums or artists..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-      </div>
-
     {/* Search bar — only show when no album is selected */}
       {!currentAlbum && (
         <div className="search-wrapper fade-in">
