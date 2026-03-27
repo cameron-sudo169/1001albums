@@ -1,5 +1,5 @@
-/* GOOGLE FONT — MUST BE FIRST */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+/* GOOGLE FONTS — Vaporwave Style */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Oxanium:wght@300;400;600;700&display=swap');
 
 /* GLOBAL RESET */
 * {
@@ -8,19 +8,31 @@
   box-sizing: border-box;
 }
 
+/* 🌅 VAPORWAVE SUNSET BACKGROUND */
 body {
-  background: radial-gradient(circle at 30% 50%, #2a0134, #0a0014 70%);
-  color: #e8dafe;
-  font-family: 'Inter', sans-serif;
+  background: linear-gradient(
+    to bottom,
+    #ff9ac5 0%,     /* cotton candy pink */
+    #ff6f91 25%,    /* warm sunset pink */
+    #ff4d67 45%,    /* neon magenta */
+    #45227a 70%,    /* vaporwave purple */
+    #1b1449 100%     /* deep midnight blue */
+  );
+  color: #fbeaff;
+  font-family: 'Oxanium', sans-serif;
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
 }
 
 /* HEADINGS */
 h1, h2, h3, h4 {
+  font-family: 'Orbitron', sans-serif;
   font-weight: 700;
   letter-spacing: 1px;
-  text-shadow: 0 0 6px #ff4eed, 0 0 12px #6d00ff;
+  text-shadow: 
+      0 0 6px #ff9ac5,
+      0 0 12px #ff4d67,
+      0 0 20px #ff2edb;
 }
 
 /* BUTTON ROW */
@@ -31,47 +43,51 @@ h1, h2, h3, h4 {
   margin: 20px 0;
 }
 
-/* BUTTONS */
+/* 🎛 VAPORWAVE BUTTONS */
 button {
   cursor: pointer;
   border: none;
   font-weight: 600;
   padding: 12px 18px;
   border-radius: 8px;
-  background: linear-gradient(90deg, #ff0099, #8a2be2);
+  background: linear-gradient(90deg, #ff6f91, #ff2edb);
   color: white;
-  box-shadow: 0 0 8px #ff00ff, 0 0 14px #8300ff inset;
+  box-shadow: 
+      0 0 12px #ff8ad2, 
+      0 0 20px #ff379b inset;
   transition: 0.2s ease;
 }
 
 button:hover {
-  transform: translateY(-3px) scale(1.03);
-  box-shadow: 0 0 12px #ff4eed, 0 0 20px #8a2be2 inset;
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 
+      0 0 16px #ffb2df, 
+      0 0 26px #ff42e6 inset;
 }
 
 /* INPUTS */
 input, textarea {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 0, 255, 0.3);
-  color: #f7eaff;
-  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 160, 220, 0.6);
+  color: #ffe6ff;
+  border-radius: 10px;
   padding: 12px;
   outline: none;
-  box-shadow: 0 0 6px #5a00c8 inset;
+  box-shadow: 0 0 6px #ff7ad1 inset;
 }
 
 input::placeholder, textarea::placeholder {
-  color: #b57cff;
+  color: #ffc6f2;
 }
 
-/* MAIN CARD (Random Album Panel) */
+/* 🎴 ALBUM CARD (Center) */
 .card-main {
-  background: rgba(20, 0, 40, 0.6);
-  backdrop-filter: blur(14px);
-  border: 1px solid rgba(183, 0, 255, 0.35);
-  border-radius: 16px;
-  padding: 24px;
-  box-shadow: 0 0 20px #45008a;
+  background: rgba(255, 170, 220, 0.10);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 200, 240, 0.4);
+  border-radius: 18px;
+  padding: 26px;
+  box-shadow: 0 0 40px #ff47cc;
   transition: 0.3s ease;
   max-width: 600px;
   width: 90%;
@@ -79,62 +95,71 @@ input::placeholder, textarea::placeholder {
 }
 
 .card-main:hover {
-  box-shadow: 0 0 26px #8a2be2, 0 0 40px #ff00b3;
+  box-shadow: 0 0 50px #ff68e6, 0 0 80px #ff2edb;
 }
 
-/* ⭐ ALBUM COVER (Random Album Card) */
-.album-cover {
-  width: 250px;
-  height: 250px;
-  object-fit: cover;
-  display: block;
-  margin: 0 auto 20px;
-  border-radius: 12px;
-  box-shadow: 0 0 20px #ff00ff, 0 0 40px #8a2be2;
-  border: 1px solid rgba(255, 0, 255, 0.3);
-}
-
-/* ⭐ (Optional) Smaller covers for album grid cards */
-.album-cover-grid {
-  width: 140px;
-  height: 140px;
-  object-fit: cover;
-  display: block;
-  margin: 0 auto 10px;
-  border-radius: 10px;
-  box-shadow: 0 0 12px #ff00ff;
-}
-
-/* ⭐ CENTER THE CARD VERTICALLY + HORIZONTALLY */
+/* CENTER THE CARD */
 .center-card-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 80vh;
   width: 100%;
-  padding-top: 20px;
+  padding-top: 10px;
 }
 
-/* ALBUM GRID — 4‑COLUMN RESPONSIVE */
+/* 🌇 ALBUM COVER (MAIN VIEW) */
+.album-cover {
+  width: 250px;
+  height: 250px;
+  object-fit: cover;
+  display: block;
+  margin: 0 auto 20px;
+  border-radius: 14px;
+
+  box-shadow:
+    0 0 20px #ff79b0,
+    0 0 40px #ff4fda,
+    0 0 60px #ff2edb;
+
+  border: 2px solid rgba(255, 150, 240, 0.35);
+}
+
+/* 🌆 ALBUM GRID */
 .album-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 16px;
-  margin-top: 20px;
+  gap: 18px;
+  margin-top: 25px;
 }
 
-/* ALBUM CARDS IN GRID */
+/* GRID ALBUM CARD */
 .album-card {
-  background: rgba(40, 0, 66, 0.5);
-  padding: 14px;
-  border-radius: 12px;
-  border: 1px solid rgba(255, 0, 255, 0.25);
-  box-shadow: 0 0 12px #6500b3;
-  transition: 0.2s ease;
+  background: rgba(255, 140, 210, 0.12);
+  border-radius: 14px;
+  padding: 16px;
+  border: 1px solid rgba(255, 180, 240, 0.35);
   text-align: center;
+  box-shadow: 0 0 14px #ff78d8;
+  transition: 0.2s;
 }
 
 .album-card:hover {
-  transform: translateY(-4px) scale(1.03);
-  box-shadow: 0 0 16px #ff00ff, 0 0 25px #7f00ff;
+  transform: translateY(-5px) scale(1.03);
+  box-shadow: 
+      0 0 20px #ff9be9, 
+      0 0 35px #ff4eda;
+}
+
+/* SMALL GRID COVERS */
+.album-cover-grid {
+  width: 140px;
+  height: 140px;
+  object-fit: cover;
+  display: block;
+  margin: 0 auto 12px;
+  border-radius: 12px;
+  box-shadow:
+    0 0 16px #ffa3d8,
+    0 0 28px #ff2edb;
 }
