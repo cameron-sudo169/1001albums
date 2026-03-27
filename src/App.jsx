@@ -63,6 +63,13 @@ export default function App() {
       {currentAlbum && (
         <div className="center-card-wrapper">
           <div className="card-main fade-in">
+            {currentAlbum.cover && (
+  <img
+    src={currentAlbum.cover}
+    alt={currentAlbum.title}
+    className="album-cover"
+  />
+)}
             <h2 className="album-title">{currentAlbum.title}</h2>
             <p><strong>Artist:</strong> {currentAlbum.artist}</p>
             <p><strong>Year:</strong> {currentAlbum.year}</p>
