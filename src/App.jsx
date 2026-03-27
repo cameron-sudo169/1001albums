@@ -65,7 +65,6 @@ export default function App() {
           <p><strong>Artist:</strong> {currentAlbum.artist}</p>
           <p><strong>Year:</strong> {currentAlbum.year}</p>
           <p><strong>Genre:</strong> {currentAlbum.genre}</p>
-          <p><strong>Why it's essential:</strong> {currentAlbum.reason}</p>
 
           <textarea
             className="notes-box"
