@@ -59,8 +59,12 @@ export default function App() {
         </button>
       </div>
 
-      {currentAlbum && (
-        <div className="card-main fade-in">
+{currentAlbum && (
+  <div className="center-card-wrapper">
+    <div className="card-main fade-in">
+</div>
+  </div>
+)}
           <h2 className="album-title">{currentAlbum.title}</h2>
           <p><strong>Artist:</strong> {currentAlbum.artist}</p>
           <p><strong>Year:</strong> {currentAlbum.year}</p>
