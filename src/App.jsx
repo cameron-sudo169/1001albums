@@ -86,17 +86,17 @@ export default function App() {
         />
       </div>
 
-      <div className="album-grid fade-in">
-        {filtered.map((a) => (
-          <div key={a.title} className="album-card fade-in">
-            <h3 className="album-name">{a.title}</h3>
-            <p className="album-artist">
-              {a.artist} ({a.year})
-            </p>
-            <p className="album-genre">{a.genre}</p>
-          </div>
-        ))}
+     {/* Only show the full list if NO album is currently selected */}
+{!currentAlbum && (
+  <div className="album-grid fade-in">
+    {filtered.map((a) => (
+      <div key={a.title} className="album-card fade-in">
+        <h3 className="album-name">{a.title}</h3>
+        <p className="album-artist">
+          {a.artist} ({a.year})
+        </p>
+        <p className="album-genre">{a.genre}</p>
       </div>
-    </div>
-  );
-}
+    ))}
+  </div>
+)}
