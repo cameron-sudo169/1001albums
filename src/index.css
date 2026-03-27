@@ -1,22 +1,23 @@
 /* GOOGLE FONTS — Modern Material Style */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap');
 
-/* GLOBAL RESET */
+/* RESET */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+/* 🌸 SOFT PASTEL BACKGROUND (NO HARD WHITE) */
 body {
   background: linear-gradient(
-    to bottom right,
-    #f8f5ff,
-    #f1f5ff,
-    #e9f7ff
+    135deg,
+    #fbe8f4 0%,
+    #f4ecff 40%,
+    #eaf7ff 100%
   );
   color: #1e1e2e;
-  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
   padding-bottom: 40px;
@@ -25,16 +26,15 @@ body {
 /* HEADINGS */
 h1, h2, h3, h4 {
   font-weight: 700;
-  letter-spacing: -0.5px;
-  color: #212121;
+  letter-spacing: -0.2px;
+  color: #2b2b33;
 }
 
-/* MAIN APP TITLE */
+/* TITLE */
 .app-title {
   font-size: 2.4rem;
   text-align: center;
   margin-bottom: 20px;
-  color: #1a1a1a;
 }
 
 /* BUTTON ROW */
@@ -45,51 +45,45 @@ h1, h2, h3, h4 {
   margin-bottom: 20px;
 }
 
-/* MATERIAL BUTTONS */
+/* MODERN BUTTONS */
 button {
   cursor: pointer;
   border: none;
   font-weight: 600;
   padding: 12px 22px;
-  border-radius: 12px;
-  background: linear-gradient(180deg, #ffffff, #ececf2);
-  color: #2e2e3a;
+  border-radius: 14px;
+  background: linear-gradient(180deg, #ffffff, #f3f0ff);
+  color: #333;
   box-shadow:
-    0 1px 3px rgba(0, 0, 0, 0.08),
-    0 4px 12px rgba(0, 0, 0, 0.06);
+    0 2px 4px rgba(0,0,0,0.05),
+    0 4px 14px rgba(0,0,0,0.05);
   transition: 0.2s ease;
 }
 
 button:hover {
   transform: translateY(-2px);
   box-shadow:
-    0 3px 6px rgba(0, 0, 0, 0.12),
-    0 6px 16px rgba(0, 0, 0, 0.09);
+    0 3px 8px rgba(0,0,0,0.08),
+    0 8px 20px rgba(0,0,0,0.06);
 }
 
 /* INPUTS */
 input, textarea {
-  background: #ffffff;
-  border: 1px solid #d9d9e3;
+  background: #fff;
+  border: 1px solid #d6d6e8;
   color: #333;
   border-radius: 10px;
   padding: 12px;
   outline: none;
   width: 100%;
-  box-shadow:
-    0 1px 2px rgba(0, 0, 0, 0.06),
-    0 1px 4px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
   transition: 0.15s ease;
 }
 
 input:focus, textarea:focus {
-  border-color: #7b8cff;
+  border-color: #9b8cff;
   box-shadow:
-    0 0 0 3px rgba(123, 140, 255, 0.2);
-}
-
-input::placeholder, textarea::placeholder {
-  color: #9a9ab3;
+    0 0 0 3px rgba(155, 140, 255, 0.25);
 }
 
 /* CENTER CARD WRAPPER */
@@ -101,67 +95,67 @@ input::placeholder, textarea::placeholder {
   margin-top: 20px;
 }
 
-/* MAIN CARD — MATERIAL YOU STYLE */
+/* 🎴 MAIN ALBUM CARD — SOFT MATERIAL TINT */
 .card-main {
-  background: #ffffff;
-  border-radius: 20px;
+  background: #fdf7ff; /* soft lavender‑cream */
+  border-radius: 22px;
   padding: 28px;
   width: 90%;
-  max-width: 520px;
+  max-width: 540px;
+  border: 1px solid #e8dbf7;
   box-shadow:
-    0 4px 10px rgba(0, 0, 0, 0.05),
-    0 8px 30px rgba(0, 0, 0, 0.04);
-  border: 1px solid #e6e6ef;
-  transition: 0.2s ease;
+    0 4px 10px rgba(0,0,0,0.04),
+    0 10px 30px rgba(0,0,0,0.05);
+  transition: 0.25s ease;
 }
 
 .card-main:hover {
   transform: translateY(-3px);
   box-shadow:
-    0 6px 12px rgba(0, 0, 0, 0.08),
-    0 12px 40px rgba(0, 0, 0, 0.06);
+    0 6px 14px rgba(0,0,0,0.06),
+    0 16px 40px rgba(0,0,0,0.06);
 }
 
-/* ALBUM COVER */
+/* COVER (Main Card) */
 .album-cover {
   width: 230px;
   height: 230px;
   object-fit: cover;
   display: block;
-  margin: 0 auto 22px;
+  margin: 0 auto 24px;
   border-radius: 16px;
   box-shadow:
-    0 3px 8px rgba(0, 0, 0, 0.12),
-    0 6px 20px rgba(0, 0, 0, 0.08);
+    0 3px 8px rgba(0,0,0,0.12),
+    0 8px 20px rgba(0,0,0,0.07);
 }
 
-/* ALBUM GRID */
+/* GRID */
 .album-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-  gap: 20px;
+  gap: 22px;
   margin-top: 30px;
   padding: 0 10px;
 }
 
-/* GRID CARD */
+/* GRID CARD — TINTED MATERIAL SURFACE */
 .album-card {
-  background: #ffffff;
-  border-radius: 16px;
+  background: #fff6fa; /* soft pink-based card */
+  border-radius: 18px;
   padding: 18px;
-  border: 1px solid #e6e6ef;
+  border: 1px solid #f0dce7;
   text-align: center;
   box-shadow:
-    0 2px 6px rgba(0, 0, 0, 0.05),
-    0 4px 14px rgba(0, 0, 0, 0.04);
+    0 2px 6px rgba(0,0,0,0.04),
+    0 4px 12px rgba(0,0,0,0.04);
   transition: 0.2s ease;
 }
 
 .album-card:hover {
   transform: translateY(-3px);
   box-shadow:
-    0 3px 8px rgba(0, 0, 0, 0.10),
-    0 6px 18px rgba(0, 0, 0, 0.08);
+    0 3px 8px rgba(0,0,0,0.08),
+    0 8px 22px rgba(0,0,0,0.06);
 }
 
 /* GRID COVER */
@@ -173,20 +167,19 @@ input::placeholder, textarea::placeholder {
   margin: 0 auto 12px;
   border-radius: 14px;
   box-shadow:
-    0 2px 6px rgba(0, 0, 0, 0.10),
-    0 4px 14px rgba(0, 0, 0, 0.06);
+    0 2px 5px rgba(0,0,0,0.10);
 }
 
-/* TEXT INSIDE CARDS */
+/* TEXT */
 .album-name {
   font-size: 1.1rem;
   font-weight: 600;
   margin-top: 5px;
-  color: #222;
+  color: #2d2d39;
 }
 
 .album-artist,
 .album-genre {
   font-size: 0.9rem;
-  color: #555;
+  color: #56566b;
 }
