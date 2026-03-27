@@ -27,8 +27,8 @@ h1, h2, h3, h4 {
 .controls-row {
   display: flex;
   justify-content: center;
-  gap: 16px;            /* spacing between buttons */
-  margin: 20px 0;       /* spacing above and below */
+  gap: 16px;
+  margin: 20px 0;
 }
 
 /* BUTTONS */
@@ -82,17 +82,40 @@ input::placeholder, textarea::placeholder {
   box-shadow: 0 0 26px #8a2be2, 0 0 40px #ff00b3;
 }
 
+/* ⭐ ALBUM COVER (Random Album Card) */
+.album-cover {
+  width: 250px;
+  height: 250px;
+  object-fit: cover;
+  display: block;
+  margin: 0 auto 20px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px #ff00ff, 0 0 40px #8a2be2;
+  border: 1px solid rgba(255, 0, 255, 0.3);
+}
+
+/* ⭐ (Optional) Smaller covers for album grid cards */
+.album-cover-grid {
+  width: 140px;
+  height: 140px;
+  object-fit: cover;
+  display: block;
+  margin: 0 auto 10px;
+  border-radius: 10px;
+  box-shadow: 0 0 12px #ff00ff;
+}
+
 /* ⭐ CENTER THE CARD VERTICALLY + HORIZONTALLY */
 .center-card-wrapper {
   display: flex;
-  justify-content: center;   /* horizontal */
-  align-items: center;       /* vertical */
-  min-height: 80vh;          /* pushes card down into center */
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
   width: 100%;
-  padding-top: 20px;         /* slight breathing room */
+  padding-top: 20px;
 }
 
-/* ALBUM GRID — NOW A 4‑COLUMN RESPONSIVE GRID */
+/* ALBUM GRID — 4‑COLUMN RESPONSIVE */
 .album-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -108,7 +131,7 @@ input::placeholder, textarea::placeholder {
   border: 1px solid rgba(255, 0, 255, 0.25);
   box-shadow: 0 0 12px #6500b3;
   transition: 0.2s ease;
-  text-align: center;     /* cleaner look in grid */
+  text-align: center;
 }
 
 .album-card:hover {
