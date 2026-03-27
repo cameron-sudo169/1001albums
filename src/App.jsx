@@ -59,7 +59,7 @@ export default function App() {
         </button>
       </div>
 
-      {/* ⭐ Centered main album card */}
+      {/* ⭐ Centered Album Card */}
       {currentAlbum && (
         <div className="center-card-wrapper">
           <div className="card-main fade-in">
@@ -79,7 +79,7 @@ export default function App() {
         </div>
       )}
 
-      {/* Search bar — only show when no album is selected */}
+      {/* Search bar only when no album selected */}
       {!currentAlbum && (
         <div className="search-wrapper fade-in">
           <input
@@ -91,6 +91,20 @@ export default function App() {
         </div>
       )}
 
-      {/* Full album list — hidden when random album is selected */}
+      {/* Full list only when no album selected */}
       {!currentAlbum && (
         <div className="album-grid fade-in">
+          {filtered.map((a) => (
+            <div key={a.title} className="album-card fade-in">
+              <h3 className="album-name">{a.title}</h3>
+              <p className="album-artist">
+                {a.artist} ({a.year})
+              </p>
+              <p className="album-genre">{a.genre}</p>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
