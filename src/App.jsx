@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import albums from "./data/albums_with_genre_reason.json";
 
-/* --------------------------------------------------------- */
-/*   Extract the dominant color from an image using canvas   */
-/* --------------------------------------------------------- */
-function getDominantColor(imgElement) {
+/* ----------------------------------------------------------- */
+/*     Vibrant Color Extractor (ignores grey/white pixels)     */
+/* ----------------------------------------------------------- */
+function getVibrantColor(imgElement) {
   const canvas = document.createElement("canvas");
   const ctx = canvas.getContext("2d");
 
@@ -13,21 +13,38 @@ function getDominantColor(imgElement) {
 
   ctx.drawImage(imgElement, 0, 0);
 
-  const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+  const { data } = ctx.getImageData(0, 0, canvas.width, canvas.height);
+  const colors = [];
 
-  let r = 0, g = 0, b = 0, count = 0;
+  for (let i = 0; i < data.length; i += 4 * 20) { // sample ~5% pixels
+    const r = data[i];
+    const g = data[i + 1];
+    const b = data[i + 2];
 
-  // Sample every 40 pixels for speed
-  for (let i = 0; i < data.length; i += 40 * 4) {
-    r += data[i];
-    g += data[i + 1];
-    b += data[i + 2];
-    count++;
+    // Calculate saturation
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
+    const saturation = max - min;
+
+    // Ignore greys / whites / blacks (too dull)
+    if (saturation < 20) continue;
+
+    colors.push({ r, g, b, saturation });
   }
 
-  r = Math.round(r / count);
-  g = Math.round(g / count);
-  b = Math.round(b / count);
+  if (colors.length === 0) {
+    return { r: 160, g: 160, b: 160 }; // fallback
+  }
+
+  // Highest saturation = most vibrant color
+  colors.sort((a, b) => b.saturation - a.saturation);
+
+  let { r, g, b } = colors[0];
+
+  // Slight vibrancy boost (prevents washed-out palettes)
+  r = Math.min(255, r * 1.2);
+  g = Math.min(255, g * 1.2);
+  b = Math.min(255, b * 1.2);
 
   return { r, g, b };
 }
@@ -38,9 +55,9 @@ export default function App() {
   const [search, setSearch] = useState("");
   const [notes, setNotes] = useState({});
 
-  /* --------------------------------------------------------- */
-  /*               Load saved data from localStorage           */
-  /* --------------------------------------------------------- */
+  /* ----------------------------------------------- */
+  /*           Load saved state from storage         */
+  /* ----------------------------------------------- */
   useEffect(() => {
     const savedRemaining = localStorage.getItem("remainingAlbums");
     const savedNotes = localStorage.getItem("albumNotes");
@@ -57,91 +74,81 @@ export default function App() {
     localStorage.setItem("albumNotes", JSON.stringify(notes));
   }, [notes]);
 
-  /* --------------------------------------------------------- */
-  /*                    Pick Random Album                      */
-  /* --------------------------------------------------------- */
+  /* ----------------------------------------------- */
+  /*                 Pick random album               */
+  /* ----------------------------------------------- */
   const pickRandom = () => {
     if (remaining.length === 0) return;
+
     const index = Math.floor(Math.random() * remaining.length);
     const selected = remaining[index];
+
     setCurrentAlbum(selected);
     setRemaining(remaining.filter((a) => a.title !== selected.title));
   };
 
-  /* --------------------------------------------------------- */
-  /*                         Reset List                        */
-  /* --------------------------------------------------------- */
   const reset = () => {
     setRemaining(albums);
     setCurrentAlbum(null);
   };
 
-  /* --------------------------------------------------------- */
-  /*                       Search Filter                       */
-  /* --------------------------------------------------------- */
+  /* ----------------------------------------------- */
+  /*                  Search filtering               */
+  /* ----------------------------------------------- */
   const filtered = albums.filter(
     (a) =>
       a.title.toLowerCase().includes(search.toLowerCase()) ||
       a.artist.toLowerCase().includes(search.toLowerCase())
   );
 
-  /* --------------------------------------------------------- */
-  /*                         Save Notes                        */
-  /* --------------------------------------------------------- */
   const saveNote = (title, text) => {
     setNotes({ ...notes, [title]: text });
   };
 
-  /* --------------------------------------------------------- */
-  /*            Dynamic Theming When Album Changes             */
-  /* --------------------------------------------------------- */
+  /* ----------------------------------------------------------- */
+  /*            Dynamic Theming: Update CSS variables            */
+  /* ----------------------------------------------------------- */
   useEffect(() => {
     if (!currentAlbum || !currentAlbum.cover) return;
 
     const img = new Image();
-    img.crossOrigin = "anonymous"; // required for CORS-safe extraction
+    img.crossOrigin = "anonymous";
     img.src = currentAlbum.cover;
 
     img.onload = () => {
-      const { r, g, b } = getDominantColor(img);
+      const { r, g, b } = getVibrantColor(img);
 
-      // Build theme colors
       const accent = `rgb(${r}, ${g}, ${b})`;
-      const accentSoft = `rgba(${r + 40}, ${g + 40}, ${b + 40}, 0.22)`;
-      const cardBg = `rgba(${r + 60}, ${g + 60}, ${b + 60}, 0.18)`;
-      const bg = `rgba(${r + 80}, ${g + 80}, ${b + 80}, 0.22)`;
+      const cardBg = `rgba(${r}, ${g}, ${b}, 0.18)`;
+      const bg = `rgba(${r}, ${g}, ${b}, 0.12)`;
+      const soft = `rgba(${r}, ${g}, ${b}, 0.30)`;
 
-      // Apply CSS variables
       const root = document.documentElement;
+
       root.style.setProperty("--accent", accent);
-      root.style.setProperty("--accent-soft", accentSoft);
+      root.style.setProperty("--accent-soft", soft);
       root.style.setProperty("--card-bg", cardBg);
       root.style.setProperty("--bg", bg);
     };
   }, [currentAlbum]);
 
-  /* --------------------------------------------------------- */
-  /*                         RENDER UI                         */
-  /* --------------------------------------------------------- */
+  /* ----------------------------------------------------------- */
+  /*                           UI Render                         */
+  /* ----------------------------------------------------------- */
   return (
     <div className="fade-in" style={{ padding: "20px" }}>
       <h1 className="app-title">1001 Albums App</h1>
 
       <div className="controls-row fade-in">
-        <button className="button-primary" onClick={pickRandom}>
-          Pick Random
-        </button>
-        <button className="button-secondary" onClick={reset}>
-          Reset
-        </button>
+        <button onClick={pickRandom}>Pick Random</button>
+        <button onClick={reset}>Reset</button>
       </div>
 
-      {/* ⭐ Centered Album Card */}
+      {/* ⭐ RANDOM ALBUM CARD */}
       {currentAlbum && (
         <div className="center-card-wrapper">
           <div className="card-main fade-in">
-            
-            {/* Album Cover */}
+
             {currentAlbum.cover && (
               <img
                 src={currentAlbum.cover}
@@ -150,13 +157,11 @@ export default function App() {
               />
             )}
 
-            {/* Album Info */}
             <h2 className="album-title">{currentAlbum.title}</h2>
             <p><strong>Artist:</strong> {currentAlbum.artist}</p>
             <p><strong>Year:</strong> {currentAlbum.year}</p>
             <p><strong>Genre:</strong> {currentAlbum.genre}</p>
 
-            {/* Notes */}
             <textarea
               className="notes-box"
               rows="4"
@@ -168,7 +173,7 @@ export default function App() {
         </div>
       )}
 
-      {/* Search Bar */}
+      {/* SEARCH BAR */}
       {!currentAlbum && (
         <div className="search-wrapper fade-in">
           <input
@@ -180,7 +185,7 @@ export default function App() {
         </div>
       )}
 
-      {/* Album Grid */}
+      {/* GRID VIEW */}
       {!currentAlbum && (
         <div className="album-grid fade-in">
           {filtered.map((a) => (
