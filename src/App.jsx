@@ -59,28 +59,27 @@ export default function App() {
         </button>
       </div>
 
-{currentAlbum && (
-  <div className="center-card-wrapper">
-    <div className="card-main fade-in">
-</div>
-  </div>
-)}
-          <h2 className="album-title">{currentAlbum.title}</h2>
-          <p><strong>Artist:</strong> {currentAlbum.artist}</p>
-          <p><strong>Year:</strong> {currentAlbum.year}</p>
-          <p><strong>Genre:</strong> {currentAlbum.genre}</p>
+      {/* ⭐ Centered main album card */}
+      {currentAlbum && (
+        <div className="center-card-wrapper">
+          <div className="card-main fade-in">
+            <h2 className="album-title">{currentAlbum.title}</h2>
+            <p><strong>Artist:</strong> {currentAlbum.artist}</p>
+            <p><strong>Year:</strong> {currentAlbum.year}</p>
+            <p><strong>Genre:</strong> {currentAlbum.genre}</p>
 
-          <textarea
-            className="notes-box"
-            rows="4"
-            placeholder="Your listening notes..."
-            value={notes[currentAlbum.title] || ""}
-            onChange={(e) => saveNote(currentAlbum.title, e.target.value)}
-          />
+            <textarea
+              className="notes-box"
+              rows="4"
+              placeholder="Your listening notes..."
+              value={notes[currentAlbum.title] || ""}
+              onChange={(e) => saveNote(currentAlbum.title, e.target.value)}
+            />
+          </div>
         </div>
       )}
 
-    {/* Search bar — only show when no album is selected */}
+      {/* Search bar — only show when no album is selected */}
       {!currentAlbum && (
         <div className="search-wrapper fade-in">
           <input
@@ -92,20 +91,6 @@ export default function App() {
         </div>
       )}
 
-      {/* Only show the full list if NO album is currently selected */}
+      {/* Full album list — hidden when random album is selected */}
       {!currentAlbum && (
         <div className="album-grid fade-in">
-          {filtered.map((a) => (
-            <div key={a.title} className="album-card fade-in">
-              <h3 className="album-name">{a.title}</h3>
-              <p className="album-artist">
-                {a.artist} ({a.year})
-              </p>
-              <p className="album-genre">{a.genre}</p>
-            </div>
-          ))}
-        </div>
-      )}
-    </div> 
-  );
-}
