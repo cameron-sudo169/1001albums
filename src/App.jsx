@@ -102,15 +102,23 @@ export default function App() {
       {!currentAlbum && (
         <div className="album-grid fade-in">
           {filtered.map((a) => (
-            <div key={a.title} className="album-card fade-in">
-              <h3 className="album-name">{a.title}</h3>
-              <p className="album-artist">
-                {a.artist} ({a.year})
-              </p>
-              <p className="album-genre">{a.genre}</p>
-            </div>
-          ))}
-        </div>
+  <div key={a.title} className="album-card fade-in">
+
+    {a.cover && (
+      <img
+        src={a.cover}
+        alt={a.title}
+        className="album-cover-grid"
+      />
+    )}
+
+    <h3 className="album-name">{a.title}</h3>
+    <p className="album-artist">
+      {a.artist} ({a.year})
+    </p>
+    <p className="album-genre">{a.genre}</p>
+  </div>
+))}
       )}
     </div>
   );
