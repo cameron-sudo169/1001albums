@@ -243,3 +243,8 @@ body {
   display: block;
   margin: 0;
 }
+.album-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px; /* controls spacing between title, artist, year, genre */
+}
