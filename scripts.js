@@ -27,7 +27,7 @@ async function init() {
 
 async function loadAlbums() {
   try {
-    const res = await fetch('albums_with_genre_reason.json');
+    const res = await fetch('data/albums_with_genre_reason.json');
     const data = await res.json();
 
     // Assign IDs automatically
