@@ -27,12 +27,12 @@ async function init() {
 
 async function loadAlbums() {
   try {
-    const res = await fetch('albums.json');
+    const res = await fetch('albums_with_genre_reason.json');
     albums = await res.json();
     filteredAlbums = [...albums];
     totalCountEl.textContent = albums.length.toString();
   } catch (err) {
-    console.error('Error loading albums.json', err);
+    console.error('Error loading albums_with_genre_reason.json', err);
   }
 }
 
