@@ -246,5 +246,26 @@ body {
 .album-info {
   display: flex;
   flex-direction: column;
-  gap: 6px; /* controls spacing between title, artist, year, genre */
+  gap: 6px; /* controls spacing between all four lines */
+}
+
+/* Reset default margins so spacing is fully controlled by gap */
+.album-info h2,
+.album-info p,
+.album-info .tags {
+  margin: 0;
+}
+
+/* Keep year + genre tidy */
+.tags {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.tags span {
+  display: block;
+  margin: 0;
+  padding: 0;
+  line-height: 1.2;
 }
