@@ -92,3 +92,158 @@ export default function App() {
     </div>
   );
 }
+// src/components/Sidebar.jsx
+import { ChevronLeft, Home, Grid, CheckCircle } from "lucide-react";
+
+export default function Sidebar({ collapsed, setCollapsed, listenedCount, total }) {
+  return (
+    <aside className={`sidebar ${collapsed ? "collapsed" : ""}`}>
+      <div className="sidebar-top">
+        <div className="sidebar-title">
+          {!collapsed && <h1>1001 Albums</h1>}
+        </div>
+
+        <button
+          className="sidebar-toggle"
+          onClick={() => setCollapsed(!collapsed)}
+        >
+          <ChevronLeft className={collapsed ? "rotated" : ""} />
+        </button>
+      </div>
+
+      <nav className="sidebar-nav">
+        <SidebarItem icon={<Home />} label="Random" collapsed={collapsed} />
+        <SidebarItem icon={<Grid />} label="Browse" collapsed={collapsed} />
+        <SidebarItem
+          icon={<CheckCircle />}
+          label="Listened"
+          collapsed={collapsed}
+        />
+      </nav>
+
+      <div className="sidebar-progress">
+        <div className="sidebar-progress-label">
+          {!collapsed && <span>Progress</span>}
+        </div>
+        <div className="sidebar-progress-bar">
+          <div
+            className="sidebar-progress-fill"
+            style={{ height: `${(listenedCount / total) * 100}%` }}
+          />
+        </div>
+      </div>
+    </aside>
+  );
+}
+
+function SidebarItem({ icon, label, collapsed }) {
+  return (
+    <div className="sidebar-item">
+      {icon}
+      {!collapsed && <span>{label}</span>}
+    </div>
+  );
+}
+// src/components/Header.jsx
+import { Search, Shuffle } from "lucide-react";
+
+export default function Header({ search, setSearch, pickRandom }) {
+  return (
+    <header className="header">
+      <div className="search-box">
+        <Search />
+        <input
+          type="text"
+          placeholder="Search albums or artists"
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+        />
+      </div>
+
+      <button className="random-btn" onClick={pickRandom}>
+        <Shuffle />
+        <span>Random</span>
+      </button>
+    </header>
+  );
+}
+// src/components/RandomAlbum.jsx
+export default function RandomAlbum({ album }) {
+  if (!album) return null;
+
+  return (
+    <div className="random-card">
+      <img
+        src={album.cover !== "Unknown" ? album.cover : "https://via.placeholder.com/300"}
+        alt={album.title}
+      />
+
+      <div className="random-meta">
+        <h2>{album.title}</h2>
+        <p>{album.artist}</p>
+
+        <div className="tags">
+          <span>{album.year}</span>
+          <span>{album.genre}</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+// src/components/NotesPanel.jsx
+import { Check } from "lucide-react";
+import { useState, useEffect } from "react";
+
+export default function NotesPanel({ album, listened, onSave }) {
+  const [notes, setNotes] = useState("");
+
+  useEffect(() => {
+    setNotes(listened?.notes || "");
+  }, [album, listened]);
+
+  return (
+    <div className="notes-panel">
+      <textarea
+        placeholder="Your notes..."
+        value={notes}
+        onChange={e => setNotes(e.target.value)}
+      />
+
+      <button onClick={() => onSave(album, notes)}>
+        <Check />
+        <span>Mark as listened</span>
+      </button>
+    </div>
+  );
+}
+// src/components/AlbumGrid.jsx
+export default function AlbumGrid({ albums, listened, onSelect }) {
+  return (
+    <div className="album-grid">
+      {albums.map(album => (
+        <div
+          key={album.id}
+          className={`album-card ${listened[album.id] ? "listened" : ""}`}
+          onClick={() => onSelect(album)}
+        >
+          <img
+            src={album.cover !== "Unknown" ? album.cover : "https://via.placeholder.com/300"}
+            alt={album.title}
+          />
+          <h4>{album.title}</h4>
+          <p>{album.artist}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+// src/components/ProgressBar.jsx
+export default function ProgressBar({ listened, total }) {
+  const pct = (listened / total) * 100;
+
+  return (
+    <div className="progress-bar">
+      <div className="progress-fill" style={{ width: `${pct}%` }} />
+    </div>
+  );
+}
