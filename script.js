@@ -101,7 +101,7 @@ function renderGrid() {
   });
 }
 
-fetch("data/albums_with_genre_reason.json")
+fetch("data/albums_with_genre_reasons.json")
   .then(res => res.json())
   .then(data => {
     albums = data.map((a, i) => ({ id: i, ...a }));
