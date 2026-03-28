@@ -43,14 +43,14 @@ function showRandomAlbum(album) {
   randomAlbumDiv.classList.remove("hidden");
   randomAlbumDiv.innerHTML = `
     <img src="${album.cover !== "Unknown" ? album.cover : "https://via.placeholder.com/300"}" />
-    <div>
-      <h2>${album.title}</h2>
-      <p>${album.artist}</p>
-      <div class="tags">
-        <span>${album.year}</span>
-        <span>${album.genre}</span>
-      </div>
-    </div>
+<div class="album-info">
+  <h2>${album.title}</h2>
+  <p>${album.artist}</p>
+  <div class="tags">
+    <span>${album.year}</span>
+    <span>${album.genre}</span>
+  </div>
+</div>
   `;
 
   showNotesPanel(album);
