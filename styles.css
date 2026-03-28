@@ -20,7 +20,7 @@ body {
   margin: 0;
   background: var(--charcoal-2);
   color: var(--text-primary);
-  font-family: Inter, system-ui, sans-serif;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
 }
 
 /* LAYOUT */
