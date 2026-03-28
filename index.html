@@ -1,12 +1,87 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>1001 Albums App</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <title>1001 Albums App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="app-header">
+      <div class="header-main">
+        <div>
+          <h1 class="app-title">1001 Albums</h1>
+          <p class="app-subtitle">Professional, randomised journey through the 1001 list.</p>
+        </div>
+        <div class="header-controls">
+          <button id="pickRandomBtn" class="btn btn-primary">Pick Random</button>
+          <button id="resetBtn" class="btn btn-ghost">Reset Progress</button>
+        </div>
+      </div>
+
+      <div class="header-bottom">
+        <div class="progress-wrapper">
+          <div class="progress-label">
+            <span id="listenedCount">0</span> / <span id="totalCount">1001</span> albums listened
+          </div>
+          <div class="progress-bar">
+            <div id="progressFill" class="progress-fill"></div>
+          </div>
+        </div>
+
+        <div class="search-wrapper">
+          <input
+            id="searchInput"
+            type="text"
+            placeholder="Search albums or artists..."
+            class="search-input"
+          />
+        </div>
+      </div>
+    </header>
+
+    <main class="app-main">
+      <section class="random-section">
+        <h2 class="section-title">Now Playing (Random)</h2>
+        <div id="randomAlbumCard" class="album-card album-card--empty">
+          <p class="empty-state">Click “Pick Random” to start your journey.</p>
+        </div>
+
+        <div class="notes-panel">
+          <div class="notes-header">
+            <h3>Listening notes</h3>
+            <button id="markListenedBtn" class="btn btn-accent" disabled>Mark as listened</button>
+          </div>
+          <textarea
+            id="notesTextarea"
+            class="notes-textarea"
+            placeholder="Your listening notes..."
+            disabled
+          ></textarea>
+        </div>
+      </section>
+
+      <section class="grid-section">
+        <div class="grid-header">
+          <h2 class="section-title">Browse the list</h2>
+          <span class="grid-meta" id="gridMeta">Showing 0 albums</span>
+        </div>
+        <div id="albumGrid" class="album-grid">
+          <!-- Albums will be rendered here -->
+        </div>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <span>Built by Cameron · 1001 Albums App</span>
+      <span class="footer-meta">v1 · Electric Blue layout</span>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
 </html>
