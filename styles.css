@@ -232,3 +232,8 @@ body {
 .hidden {
   display: none;
 }
+.tags {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
