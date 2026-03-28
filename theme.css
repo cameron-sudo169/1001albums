@@ -1,0 +1,28 @@
+/* src/styles/theme.css */
+
+:root {
+  --charcoal-1: #111216;
+  --charcoal-2: #181a1f;
+  --charcoal-3: #1f2127;
+
+  --gradient-sidebar: linear-gradient(to bottom, #1a1b20, #0d0e11);
+
+  --blue: #3b82f6;
+  --blue-hover: #60a5fa;
+
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.6);
+
+  --border-soft: rgba(255, 255, 255, 0.06);
+
+  --radius: 10px;
+  --transition: 0.25s ease;
+}
+
+body {
+  margin: 0;
+  background: var(--charcoal-2);
+  color: var(--text-primary);
+  font-family: Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
