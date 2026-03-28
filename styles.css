@@ -237,3 +237,7 @@ body {
   flex-direction: column;
   gap: 4px;
 }
+.tags span {
+  line-height: 1.3;
+  display: block;
+}
