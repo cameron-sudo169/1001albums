@@ -1,3 +1,6 @@
+* {
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+}
 /* THEME */
 :root {
   --charcoal-1: #111216;
