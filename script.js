@@ -24,6 +24,27 @@ function updateProgress() {
 
 toggleSidebar.addEventListener("click", () => {
   sidebar.classList.toggle("collapsed");
+  document.getElementById("navRandom").onclick = () => {
+  randomBtn.click();
+};
+
+document.getElementById("navBrowse").onclick = () => {
+  window.scrollTo({ top: albumGrid.offsetTop, behavior: "smooth" });
+};
+
+document.getElementById("navListened").onclick = () => {
+  const listenedIds = Object.keys(listened);
+  const filtered = albums.filter(a => listenedIds.includes(String(a.id)));
+  searchInput.value = ""; // clear search
+  albumGrid.innerHTML = filtered
+    .map(a => `
+      <div class="album-card listened" data-id="${a.id}">
+        <img src="${a.cover !== "Unknown" ? a.cover : "https://via.placeholder.com/300"}" />
+        <h4>${a.title}</h4>
+        <p>${a.artist}</p>
+      </div>
+    `)
+    .join("");
 });
 
 randomBtn.addEventListener("click", pickRandom);
