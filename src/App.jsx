@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import albumsData from "./data/albums_with_genre_reason.json";
+import albumsData from "./src/albums_with_genre_reason.json";
 
 import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
