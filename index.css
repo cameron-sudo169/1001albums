@@ -1,0 +1,236 @@
+/* --------------------------------------- */
+/*     GOOGLE FONTS — Material Modern      */
+/* --------------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap');
+
+/* --------------------------------------- */
+/*     DYNAMIC THEME VARIABLES (KEY!)      */
+/* --------------------------------------- */
+/* These get updated automatically by App.jsx based on album cover colors */
+:root {
+  --accent: #9b8cff;        /* Dynamic primary */
+  --accent-soft: #e4e0ff;   /* Softened accent */
+  --bg: #f4f2ff;            /* App background */
+  --card-bg: #fdf7ff;       /* Card background */
+  --text-primary: #1e1e2e;
+  --text-secondary: #56566b;
+  --shadow-color: rgba(0, 0, 0, 0.06);
+  --shadow-strong: rgba(0, 0, 0, 0.12);
+  transition: all 0.4s ease; /* Smooth theme transitions */
+}
+
+/* --------------------------------------- */
+/*              GLOBAL RESET               */
+/* --------------------------------------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  padding-bottom: 40px;
+  transition: background 0.4s ease;
+}
+
+/* --------------------------------------- */
+/*                 HEADINGS                */
+/* --------------------------------------- */
+h1, h2, h3, h4 {
+  font-weight: 700;
+  letter-spacing: -0.2px;
+  color: var(--text-primary);
+}
+
+/* Main Title */
+.app-title {
+  font-size: 2.4rem;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* --------------------------------------- */
+/*                BUTTONS                  */
+/* --------------------------------------- */
+.controls-row {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  padding: 12px 22px;
+  border-radius: 14px;
+  font-weight: 600;
+
+  background: linear-gradient(180deg, #ffffff, var(--accent-soft));
+  color: var(--text-primary);
+
+  box-shadow:
+    0 2px 4px var(--shadow-color),
+    0 4px 12px var(--shadow-color);
+
+  transition: 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 3px 8px var(--shadow-strong),
+    0 6px 18px var(--shadow-color);
+}
+
+/* --------------------------------------- */
+/*               INPUTS                    */
+/* --------------------------------------- */
+input,
+textarea {
+  background: #ffffff;
+  border: 1px solid var(--accent-soft);
+  border-radius: 12px;
+  padding: 12px;
+  width: 100%;
+  color: var(--text-primary);
+  outline: none;
+
+  box-shadow:
+    0 1px 3px var(--shadow-color),
+    0 2px 8px var(--shadow-color);
+
+  transition: 0.2s ease;
+}
+
+input:focus,
+textarea:focus {
+  border-color: var(--accent);
+  box-shadow:
+    0 0 0 3px rgba(155, 140, 255, 0.25);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--text-secondary);
+}
+
+/* --------------------------------------- */
+/*               MAIN CARD                 */
+/* --------------------------------------- */
+.center-card-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 60vh;
+  margin-top: 20px;
+}
+
+.card-main {
+  background: var(--card-bg);
+  border-radius: 22px;
+  padding: 28px;
+  width: 90%;
+  max-width: 540px;
+
+  border: 1px solid var(--accent-soft);
+
+  box-shadow:
+    0 4px 10px var(--shadow-color),
+    0 10px 30px var(--shadow-color);
+
+  transition: 0.25s ease;
+}
+
+.card-main:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 6px 14px var(--shadow-color),
+    0 16px 40px var(--shadow-color);
+}
+
+/* --------------------------------------- */
+/*               COVER — MAIN              */
+/* --------------------------------------- */
+.album-cover {
+  width: 230px;
+  height: 230px;
+  object-fit: cover;
+  display: block;
+  margin: 0 auto 24px;
+  border-radius: 18px;
+
+  box-shadow:
+    0 3px 8px rgba(0,0,0,0.10),
+    0 8px 20px rgba(0,0,0,0.07);
+
+  transition: 0.3s ease;
+}
+
+/* --------------------------------------- */
+/*                 GRID                    */
+/* --------------------------------------- */
+.album-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 22px;
+  margin-top: 30px;
+  padding: 0 10px;
+}
+
+/* Grid Card */
+.album-card {
+  background: var(--card-bg);
+  border-radius: 18px;
+  padding: 18px;
+  text-align: center;
+
+  border: 1px solid var(--accent-soft);
+
+  box-shadow:
+    0 2px 6px var(--shadow-color),
+    0 4px 12px var(--shadow-color);
+
+  transition: 0.2s ease;
+}
+
+.album-card:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 3px 8px var(--shadow-strong),
+    0 8px 22px var(--shadow-color);
+}
+
+/* Grid Cover */
+.album-cover-grid {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  display: block;
+  margin: 0 auto 12px;
+  border-radius: 14px;
+
+  box-shadow:
+    0 2px 5px rgba(0,0,0,0.10);
+}
+
+/* --------------------------------------- */
+/*               TEXT STYLES               */
+/* --------------------------------------- */
+.album-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-top: 5px;
+  color: var(--text-primary);
+}
+
+.album-artist,
+.album-genre {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
