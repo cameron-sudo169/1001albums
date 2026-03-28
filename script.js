@@ -11,6 +11,10 @@ const albumGrid = document.getElementById("albumGrid");
 const progressFill = document.getElementById("progressFill");
 const sidebarProgressFill = document.getElementById("sidebarProgressFill");
 
+/* ------------------------------
+   SAVE + PROGRESS
+------------------------------ */
+
 function saveListened() {
   localStorage.setItem("listened_static_v1", JSON.stringify(listened));
   updateProgress();
@@ -22,9 +26,19 @@ function updateProgress() {
   sidebarProgressFill.style.height = pct + "%";
 }
 
+/* ------------------------------
+   SIDEBAR COLLAPSE
+------------------------------ */
+
 toggleSidebar.addEventListener("click", () => {
   sidebar.classList.toggle("collapsed");
-  document.getElementById("navRandom").onclick = () => {
+});
+
+/* ------------------------------
+   SIDEBAR NAV BUTTONS
+------------------------------ */
+
+document.getElementById("navRandom").onclick = () => {
   randomBtn.click();
 };
 
@@ -35,7 +49,9 @@ document.getElementById("navBrowse").onclick = () => {
 document.getElementById("navListened").onclick = () => {
   const listenedIds = Object.keys(listened);
   const filtered = albums.filter(a => listenedIds.includes(String(a.id)));
+
   searchInput.value = ""; // clear search
+
   albumGrid.innerHTML = filtered
     .map(a => `
       <div class="album-card listened" data-id="${a.id}">
@@ -45,13 +61,13 @@ document.getElementById("navListened").onclick = () => {
       </div>
     `)
     .join("");
-});
+};
+
+/* ------------------------------
+   RANDOM ALBUM
+------------------------------ */
 
 randomBtn.addEventListener("click", pickRandom);
-
-searchInput.addEventListener("input", () => {
-  renderGrid();
-});
 
 function pickRandom() {
   const unlistened = albums.filter(a => !listened[a.id]);
@@ -64,18 +80,22 @@ function showRandomAlbum(album) {
   randomAlbumDiv.classList.remove("hidden");
   randomAlbumDiv.innerHTML = `
     <img src="${album.cover !== "Unknown" ? album.cover : "https://via.placeholder.com/300"}" />
-<div class="album-info">
-  <h2>${album.title}</h2>
-  <p>${album.artist}</p>
-  <div class="tags">
-    <span>${album.year}</span>
-    <span>${album.genre}</span>
-  </div>
-</div>
+    <div class="album-info">
+      <h2>${album.title}</h2>
+      <p>${album.artist}</p>
+      <div class="tags">
+        <span>${album.year}</span>
+        <span>${album.genre}</span>
+      </div>
+    </div>
   `;
 
   showNotesPanel(album);
 }
+
+/* ------------------------------
+   NOTES PANEL
+------------------------------ */
 
 function showNotesPanel(album) {
   notesPanel.classList.remove("hidden");
@@ -93,6 +113,14 @@ function showNotesPanel(album) {
     renderGrid();
   };
 }
+
+/* ------------------------------
+   GRID RENDERING
+------------------------------ */
+
+searchInput.addEventListener("input", () => {
+  renderGrid();
+});
 
 function renderGrid() {
   const term = searchInput.value.toLowerCase();
@@ -121,6 +149,10 @@ function renderGrid() {
     };
   });
 }
+
+/* ------------------------------
+   FETCH ALBUM DATA
+------------------------------ */
 
 fetch("data/albums_with_genre_reasons.json")
   .then(res => res.json())
